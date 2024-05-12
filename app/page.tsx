@@ -49,15 +49,17 @@ const Home = async () => {
       <div className="space-y-4 pt-6">
         <div className="flex items-center justify-between px-5">
           <h2 className="font-semibold">Pedidos recomendados</h2>
-          <Link href="/products/recommended">
-            <Button
-              variant="ghost"
-              className="h-fit p-0 text-primary hover:bg-transparent"
-            >
+          {/* Para não ficar o button dentro de uma tag a, caso o Link englobasse o Button, altera-se para a maneira atual, com a prop asChild vai pegar a estilização do Button e colocar no elemento filho (nesse caso o Link).  */}
+          <Button
+            variant="ghost"
+            className="h-fit p-0 text-primary hover:bg-transparent"
+            asChild
+          >
+            <Link href="/products/recommended">
               Ver todos
               <ChevronRight size={16} />
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </div>
         <ProductList products={products} />
       </div>
@@ -72,15 +74,17 @@ const Home = async () => {
       <div className="space-y-4 pt-6">
         <div className="flex items-center justify-between px-5">
           <h2 className="font-semibold">Restaurantes recomendados</h2>
-          <Link href="/restaurants/recommended">
-            <Button
-              variant="ghost"
-              className="h-fit p-0 text-primary hover:bg-transparent"
-            >
+          {/* Para não ficar o button dentro de uma tag a, caso o Link englobasse o Button, altera-se para a maneira atual, com a prop asChild vai pegar a estilização do Button e colocar no elemento filho (nesse caso o Link).  */}
+          <Button
+            variant="ghost"
+            className="h-fit p-0 text-primary hover:bg-transparent"
+            asChild
+          >
+            <Link href="/restaurants/recommended">
               Ver todos
               <ChevronRight size={16} />
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </div>
         <RestaurantList />
       </div>
