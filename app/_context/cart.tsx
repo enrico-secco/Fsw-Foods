@@ -17,26 +17,14 @@ interface ICardContext {
   totalPrice: number;
   totalDiscounts: number;
   // eslint-disable-next-line no-unused-vars
-  addProductToCart: ({
+  addProductToCart: (
     // eslint-disable-next-line no-unused-vars
-    product,
-    // eslint-disable-next-line no-unused-vars
-    quantity,
-    // eslint-disable-next-line no-unused-vars
-    emptyCart,
-  }: {
     product: Prisma.ProductGetPayload<{
-      include: {
-        restaurant: {
-          select: {
-            deliveryFee: true;
-          };
-        };
-      };
-    }>;
-    quantity: number;
-    emptyCart?: boolean;
-  }) => void;
+      include: { restaurant: { select: { deliveryFee: true } } };
+    }>,
+    // eslint-disable-next-line no-unused-vars
+    quantity: number,
+  ) => void;
   // eslint-disable-next-line no-unused-vars
   decreaseProductQuantity: (productId: string) => void;
   // eslint-disable-next-line no-unused-vars
@@ -67,11 +55,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const totalPrice = useMemo(() => {
     return products.reduce((acc, product) => {
-      return (
-        acc +
-        calculateProductTotalPrice(product) * product.quantity +
-        Number(products?.[0]?.restaurant?.deliveryFee)
-      );
+      return acc + calculateProductTotalPrice(product) * product.quantity;
     }, 0);
   }, [products]);
 
@@ -118,21 +102,12 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     );
   };
 
-  const addProductToCart = ({
-    product,
-    quantity,
-    emptyCart,
-  }: {
+  const addProductToCart = (
     product: Prisma.ProductGetPayload<{
       include: { restaurant: { select: { deliveryFee: true } } };
-    }>;
-    quantity: number;
-    emptyCart?: boolean;
-  }) => {
-    if (emptyCart) {
-      setProducts([]);
-    }
-
+    }>,
+    quantity: number,
+  ) => {
     const isProductAlreadyOnCart = products.some(
       (cartProduct) => cartProduct.id === product.id,
     );
