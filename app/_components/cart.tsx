@@ -19,8 +19,17 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "./ui/alert-dialog";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-const Cart = () => {
+interface CartProps {
+  // eslint-disable-next-line no-unused-vars
+  setIsOpen: (isOpen: boolean) => void;
+}
+
+const Cart = ({ setIsOpen }: CartProps) => {
+  const router = useRouter();
+
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const { data } = useSession();
@@ -56,6 +65,17 @@ const Cart = () => {
       });
 
       clearCart();
+
+      toast("Pedido finalizado com sucesso!", {
+        description:
+          "Você pode acompanhar o status do seu pedido na aba 'Meus pedidos'.",
+        action: {
+          label: "Meus pedidos",
+          onClick: () => router.push("/my-orders"),
+        },
+      });
+
+      setIsOpen(false);
     } catch (error) {
       console.log(error);
     } finally {
