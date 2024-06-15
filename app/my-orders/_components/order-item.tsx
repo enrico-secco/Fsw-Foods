@@ -34,7 +34,7 @@ const getOrderStatusLabel = (status: OrderStatus) => {
     case "CONFIRMED":
       return "Confirmado";
     case "DELIVERING":
-      return "Em entrega";
+      return "Em Transporte";
     case "PREPARING":
       return "Preparando";
   }
@@ -42,24 +42,27 @@ const getOrderStatusLabel = (status: OrderStatus) => {
 
 const OrderItem = ({ order }: OrderItemProps) => {
   const { addProductToCart } = useContext(CartContext);
+
   const router = useRouter();
 
-  const handleRepeatOrderClick = () => {
+  const handleRedoOrderClick = () => {
     for (const orderProduct of order.products) {
       addProductToCart({
-        product: { ...orderProduct.product, restaurant: order.restaurant },
-        quantity: orderProduct.quantity,
+        product: {
+          ...orderProduct.product,
+          restaurant: order.restaurant,
+          quantity: orderProduct.quantity,
+        },
       });
     }
 
     router.push(`/restaurants/${order.restaurantId}`);
   };
-
   return (
     <Card>
       <CardContent className="p-5">
         <div
-          className={`w-fit rounded-full bg-[#EEEEEE] px-2  py-1 text-muted-foreground ${order.status !== "COMPLETED" && "bg-green-500 text-white"}`}
+          className={`w-fit rounded-full bg-[#EEEEEE] px-2 py-1 text-muted-foreground ${order.status !== "COMPLETED" && "bg-green-500 text-white"}`}
         >
           <span className="block text-xs font-semibold">
             {getOrderStatusLabel(order.status)}
@@ -76,6 +79,7 @@ const OrderItem = ({ order }: OrderItemProps) => {
               {order.restaurant.name}
             </span>
           </div>
+
           <Button
             variant="link"
             size="icon"
@@ -118,7 +122,7 @@ const OrderItem = ({ order }: OrderItemProps) => {
             size="sm"
             className="text-xs text-primary"
             disabled={order.status !== "COMPLETED"}
-            onClick={handleRepeatOrderClick}
+            onClick={handleRedoOrderClick}
           >
             Refazer pedido
           </Button>
