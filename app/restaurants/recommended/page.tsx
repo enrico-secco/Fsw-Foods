@@ -3,7 +3,7 @@ import RestaurantItem from "@/app/_components/restaurant-item";
 import { db } from "@/app/_lib/prisma";
 
 const RecommendedRestaurants = async () => {
-  const restaurant = await db.restaurant.findMany({});
+  const restaurants = await db.restaurant.findMany({});
 
   return (
     <>
@@ -13,7 +13,7 @@ const RecommendedRestaurants = async () => {
           Restaurantes recomendados
         </h2>
         <div className="flex w-full flex-col gap-6">
-          {restaurant.map((restaurant) => (
+          {restaurants.map((restaurant) => (
             <RestaurantItem
               key={restaurant.id}
               restaurant={restaurant}
