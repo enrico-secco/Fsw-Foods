@@ -147,7 +147,15 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     emptyCart,
   }: {
     product: Prisma.ProductGetPayload<{
-      include: { restaurant: { select: { deliveryFee: true } } };
+      include: {
+        restaurant: {
+          select: {
+            id: true;
+            deliveryFee: true;
+            deliveryTimeMinutes: true;
+          };
+        };
+      };
     }>;
     quantity: number;
     emptyCart?: boolean;
